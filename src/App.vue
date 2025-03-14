@@ -1,47 +1,63 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Button from 'primevue/button'
+import { ref } from 'vue'
+import HomePage from './components/HomePage.vue'
+import SchedulePage from './components/SchedulePage.vue'
+import MapPage from './components/MapPage.vue'
+
+const currentTab = ref('Home')
+
+const tabs = {
+  Home: HomePage,
+  Schedule: SchedulePage,
+  Map: MapPage,
+}
+
+const icons = {
+  Home: 'pi pi-home',
+  Schedule: 'pi pi-calendar',
+  Map: 'pi pi-map',
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <div class="header">
+      <div class="title">
+        <h1>Holiday Planner App</h1>
+      </div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div class="navigation-bar">
+        <Button
+          v-for="(_, tab) in tabs"
+          :key="tab"
+          :label="tab"
+          :icon="icons[tab]"
+          @click="currentTab = tab"
+        />
+      </div>
     </div>
   </header>
 
   <main>
-    <TheWelcome />
+    <component :is="tabs[currentTab]"></component>
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.header {
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  background-color: #30c5ff;
+  display: flex;
+  color: white;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.navigation-bar {
+  display: flex;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.navigation-button {
+  margin: 0px 10px 0px 10px;
 }
 </style>
